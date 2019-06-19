@@ -1,7 +1,6 @@
 <?php
 header("Content-Type: application/json");
 use App\Dao\CursoDao;
-//use App\Dao\AlunoDao;
 
 
 if(!isset($_POST['excluir'])){
