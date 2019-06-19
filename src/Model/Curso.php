@@ -30,24 +30,6 @@ class Curso
     private $ativo;
 
     /**
-     * Curso constructor.
-     * @param int $id
-     * @param $nome
-     * @param int $capacidade
-     * @param Professor $professor
-     * @param array $alunos
-     */
-    public function __construct(int $id, $nome, int $capacidade, Professor $professor, array $alunos, int $ativo)
-    {
-        $this->id = $id;
-        $this->nome = $nome;
-        $this->capacidade = $capacidade;
-        $this->professor = $professor;
-        $this->alunos = $alunos;
-        $this->ativo = $ativo;
-    }
-
-    /**
      * @return int
      */
     public function getId(): int
