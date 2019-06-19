@@ -1,0 +1,2 @@
+php_value include_path "/home/usuario/html/TreinamentoHTML/04"
+php_value auto_prepend_file vendor/autoload.php

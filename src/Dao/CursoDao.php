@@ -11,7 +11,7 @@ class CursoDao extends Curso
     public function save(): int
     {
 //        $sql = "INSERT INTO escola.curso (nome, capacidade, professor, ativo) VALUES (:nome, :capacidade, :professor, :ativo)";
-        $sql = "INSERT INTO escola.curso (nome, capacidade) VALUES (:nome, :capacidade)";
+        $sql = "INSERT INTO escola.cursos (nome, capacidade) VALUES (:nome, :capacidade)";
 
         $stmt = $this->getConnect()->prepare($sql);
         $stmt->bindValue(':nomeCurso', $this->getNome());
