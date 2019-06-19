@@ -3,7 +3,7 @@ header("Content-Type: application/json");
 use App\Dao\PessoaDao;
 use App\Dao\AlunoDao;
 
-
+echo "testando hotfix";
 if(!isset($_POST['excluir'])){
 
     $pessoa = new PessoaDao();
