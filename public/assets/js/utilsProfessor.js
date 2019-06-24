@@ -29,12 +29,14 @@ function saveProf() {
 
 function editProf() {
 
-    let url = 'control/controlProdutos.php';
+    let url = '../../src/Controller/controllerProfessor.php';
     let valores = {
-        'nomeProduto': $('#nomeProduto').val(),
-        'categoria': $('#categoria').val(),
-        'valor': $('#valor').val(),
-        'estoque': $('#estoque').val(),
+        'nomeProfessor': $('#nomeProfessor').val(),
+        'cpfProfessor': $('#cpfProfessor').val(),
+        'sexoProfessor': $('#sexoProfessor').val(),
+        'matriculaProfessor': $('#matriculaProfessor').val(),
+        'salario': $('#salario').val(),
+        'ingresso': $('#ingresso').val(),
         'id': $('#id').val(),
         'editar': true
     };
@@ -70,7 +72,7 @@ function deleteProf(id){
         return false;
     }
 
-    let url = 'control/controlProdutos.php';
+    let url = '../../src/Controller/controllerProfessor.php';
     let dados = {
         'id': id,
         'excluir': true
@@ -78,7 +80,7 @@ function deleteProf(id){
 
     $.post(url, dados, function(result){
         if (result.status == true) {
-            window.open('index.php', '_self');
+            window.open('viewProfessor.php', '_self');
         } else {
             alert(result.msg);
         }

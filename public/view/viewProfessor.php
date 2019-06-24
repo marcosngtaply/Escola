@@ -64,7 +64,7 @@ $arrProfessores = $professores->ListProf();
                             <a href="cadastroProfessor.php?id=<?= $arrProfessores[$i]['id'] ?>" class="btn btn-warning btn-sm" id="editar" >
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button href="controllerProfessor.php" class="btn btn-danger btn-sm" id="excluir" >
+                            <button onclick="deleteProf(<?= $arrProfessores[$i]['id'] ?>)" class="btn btn-danger btn-sm" id="excluir" type="button" >
                                 <i class="fas fa-trash-alt"></i>
     <!--                            onclick="deleteProf(--><?//= $arrProfessores[$i]['id'] ?><!--)"-->
                             </button>

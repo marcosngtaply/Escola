@@ -26,7 +26,7 @@ function saveAluno() {
     // alert('Salvo')
 }
 
-function deleteProf(id){
+function deleteAluno(id){
 
     let teste = confirm('Tem certeza que deseja excluir este cadastro?');
 
