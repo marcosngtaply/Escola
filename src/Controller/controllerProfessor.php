@@ -17,11 +17,11 @@ if(!isset($_POST['excluir'])){
         ->setMatricula($_POST['matriculaProfessor'] == '' ? null : $_POST['matriculaProfessor'])
         ->setIngresso($_POST['ingresso'] == '' ? null : $_POST['ingresso']);
 
-        $professor->save();
+        $idProfessor = $professor->save();
 
         if($pessoa->getDanielId() > 0){
             $arr['status'] = true;
-            $arr['msg'] = 'Cadastro do Professor ' . $pessoa->getNome() . ' foi salvo com sucesso!';
+            $arr['msg'] = 'Cadastro do Professor ' . $professor->getPessoa()->getNome() . ' foi salvo com sucesso!';
         } else {
             $arr['status'] = false;
             $arr['msg'] = 'Cadastro do Professor não pôde ser salvo!';
@@ -29,5 +29,6 @@ if(!isset($_POST['excluir'])){
         echo json_encode($arr);
 
 } else {
+    $idPhp = $_POST['id'];
 
 }

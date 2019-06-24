@@ -2,7 +2,9 @@
 include_once 'components/header.php';
 include_once 'components/menu.php';
 
-
+use App\Dao\AlunoDao;
+ $alunos = new AlunoDao();
+ $arrAlunos = $alunos->ListAlunos();
 
 ?>
 <div class="col-md-12 text-center mt-5">
@@ -30,28 +32,25 @@ include_once 'components/menu.php';
                 </tr>
                 </thead>
                 <tbody>
-                <!--            --><?php //for ($i = 0; $i < count($professores); $i++) { ?>
+                            <?php for ($i = 0; $i < count($arrAlunos); $i++) { ?>
                 <tr class="text-center">
                     <td>
-                        <!--                    --><?//= $professores[$i]['id'] ?>
-                        2365897-4
+                        <?= $arrAlunos[$i]['matricula'] ?>
                     </td>
                     <td>
-                        <!--                    --><?//= $professores[$i]['nomePessoa'] ?>
-                        João
+                        <?= $arrAlunos[$i]['nome'] ?>
+
                     </td>
                     <td>
-                        <!--                    --><?//= $professores[$i]['telefone'] ?>
-                        700746101-20
+                        <?= $arrAlunos[$i]['cpf'] ?>
                     </td>
                     <td>
-                        <!--                        --><?//= $professores[$i]['telefone'] ?>
-                        (62) 98264-5896
+                        <?= $arrAlunos[$i]['telefone'] ?>
                     </td>
                     <td>
-                        <!--                        <a href="novo.php?id=--><?//= $professores[$i]['id'] ?><!--" class="btn btn-warning btn-sm" id="editar" >-->
-                        <!--                            <i class="fas fa-edit"></i>-->
-                        <!--                        </a>-->
+                        <a href="cadastroAluno.php.php?id=<?= $arrAlunos[$i]['id'] ?>" class="btn btn-warning btn-sm" id="editar" >
+                            <i class="fas fa-edit"></i>
+                        </a>
                         <button href="control.php" class="btn btn-danger btn-sm" id="excluir" >
                             <i class="fas fa-trash-alt"></i>
                             <!--                            onclick="deletePerson(--><?//= $professores[$i]['id'] ?><!--)"-->
@@ -62,7 +61,7 @@ include_once 'components/menu.php';
                         </button>
                     </td>
                 </tr>
-                <!--            --><?php //} ?>
+                            <?php } ?>
                 </tbody>
             </table>
         </div>

@@ -9,9 +9,9 @@ if(!isset($_POST['excluir'])){
     $curso->setNome($_POST['nomeCurso'] == '' ? null : $_POST['nomeCurso'])
         ->setCapacidade($_POST['capacidade'] == '' ? null : $_POST['capacidade']);
 
-    $curso->save();
+    $danielId = $curso->save();
 
-    if($curso->getDanielId() > 0){
+    if($danielId > 0){
         $arr['status'] = true;
         $arr['msg'] = 'Cadastro do Curso ' . $curso->getNome() . ' foi salvo com sucesso!';
     } else {

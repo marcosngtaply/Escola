@@ -1,7 +1,17 @@
 <?php
 header("Content-Type: application/json");
+
+
 use App\Dao\PessoaDao;
 use App\Dao\AlunoDao;
+
+if (isset($_GET['nextId'])) {
+    $aluno = new AlunoDao();
+
+    echo json_encode($aluno->getNextId());
+    exit;
+}
+
 
 if(!isset($_POST['excluir'])){
 
@@ -10,12 +20,19 @@ if(!isset($_POST['excluir'])){
         ->setCpf($_POST['cpfAluno'] == '' ? null : $_POST['cpfAluno'])
         ->setSexo($_POST['sexoAluno'] == '' ? null : $_POST['sexoAluno']);
 
-    $aluno = new AlunoDao();
-    $aluno->setPessoa($pessoa)
-        ->setTelefone($_POST['telefone'] == '' ? null : $_POST['telefone'])
-        ->setMatricula($_POST['matriculaAluno'] == '' ? null : $_POST['matriculaAluno']);
+    if (isset($_POST['editar'])) {
+        $id = $_POST['id'];
 
-    $aluno->save();
+        //PARTE DE EDIÇÂO
+
+    } else {
+        $aluno = new AlunoDao();
+        $aluno->setPessoa($pessoa)
+            ->setTelefone($_POST['telefone'] == '' ? null : $_POST['telefone'])
+            ->setMatricula($_POST['matriculaAluno'] == '' ? null : $_POST['matriculaAluno']);
+
+        $aluno->save();
+    }
 
     if($pessoa->getDanielId() > 0){
         $arr['status'] = true;
@@ -27,5 +44,5 @@ if(!isset($_POST['excluir'])){
     echo json_encode($arr);
 
 } else {
-
+    //PARTE DE EXLCUSÃO
 }

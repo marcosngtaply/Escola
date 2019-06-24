@@ -4,6 +4,7 @@
 namespace App\Dao;
 
 use App\Model\Curso;
+use PDO;
 
 class CursoDao extends Curso
 {
@@ -13,20 +14,34 @@ class CursoDao extends Curso
     {
         $sql = "INSERT INTO escola.cursos (nome, capacidade) VALUES (:nomeCurso, :capacidade)";
 
-        $this->initTransaction();
         try {
-        $stmtCurso = $this->getConnect()->prepare($sql);
-        $stmtCurso->bindValue(':nomeCurso', $this->getNome());
-        $stmtCurso->bindValue(':capacidade', $this->getCapacidade());
+            $stmtCurso = $this->getConnect()->prepare($sql);
+            $stmtCurso->bindValue(':nomeCurso', $this->getNome());
+            $stmtCurso->bindValue(':capacidade', $this->getCapacidade());
 
-        $stmtCurso->execute();
-        $this->commitTransaction();
-        return $this->getDanielId();
+            $stmtCurso->execute();
+            return $this->getDanielId();
+
         } catch (\PDOException $evento){
 
-            $this->rollbackTransaction();
+            return false;
         }
 
         //$stmt->debugDumpParams();
+    }
+
+    public function ListCursos(): array
+    {
+        // SQL select
+        $sql = "SELECT * FROM escola.cursos ORDER BY id";
+
+
+        // Criar statement
+        $stmt = $this->getConnect()->prepare($sql);
+        $stmt->execute();
+
+        $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $cursos;
     }
 }
