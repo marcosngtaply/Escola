@@ -4,6 +4,7 @@
 namespace App\Dao;
 
 use App\Model\Professor;
+use PDO;
 
 class ProfessorDao extends Professor
 {
@@ -35,5 +36,31 @@ class ProfessorDao extends Professor
             $this->rollbackTransaction();
         }
 
+    }
+    public function ListProf(): array
+    {
+        // SQL select
+        $sql = "SELECT prof.id, prof.matricula, ps.nome, ps.cpf, ps.sexo, prof.ingresso FROM professores prof INNER JOIN
+                pessoas ps ON prof.pessoa = ps.id";
+
+
+        // Criar statement
+        $stmt = $this->getConnect()->prepare($sql);
+        $stmt->execute();
+
+        $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $professores;
+    }
+
+    public function deleteProf($idPessoa): int
+    {
+        $sql = "DELETE FROM pessoas where id = :id";
+
+        $stmt = $this->getConnect()->prepare($sql);
+        $stmt->bindValue(':id', $idPessoa);
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 }

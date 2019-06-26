@@ -2,7 +2,10 @@
 include_once 'components/header.php';
 include_once 'components/menu.php';
 
+use App\Dao\CursoDao;
 
+$cursos = new CursoDao();
+$arrCurso = $cursos->ListCursos();
 
 ?>
 <div class="col-md-12 text-center mt-5">
@@ -30,28 +33,29 @@ include_once 'components/menu.php';
                 </tr>
                 </thead>
                 <tbody>
-                <!--            --><?php //for ($i = 0; $i < count($professores); $i++) { ?>
+                <?php for ($i = 0; $i < count($arrCurso); $i++) { ?>
                 <tr class="text-center">
                     <td>
-                        <!--                    --><?//= $professores[$i]['id'] ?>
-                        001
+                        <?= $arrCurso[$i]['id'] ?>
                     </td>
                     <td>
-                        <!--                    --><?//= $professores[$i]['nomePessoa'] ?>
-                        Windows Avançado
+                        <?= $arrCurso[$i]['nome'] ?>
                     </td>
                     <td>
-                        <!--                    --><?//= $professores[$i]['telefone'] ?>
-                       50 alunos
+                        <?= $arrCurso[$i]['capacidade'] ?>
+                        alunos
                     </td>
                     <td>
-                        <!--                        --><?//= $professores[$i]['telefone'] ?>
-                        ativo
+                        <?php if ($arrCurso[$i]['ativo'] == 0){ ?>
+                            Inativo
+                        <?php } else { ?>
+                            Ativo
+                        <?php } ?>
                     </td>
                     <td>
-                        <!--                        <a href="novo.php?id=--><?//= $professores[$i]['id'] ?><!--" class="btn btn-warning btn-sm" id="editar" >-->
-                        <!--                            <i class="fas fa-edit"></i>-->
-                        <!--                        </a>-->
+                         <a href="cadastroCurso.php?id=<?= $arrCurso[$i]['id'] ?>" class="btn btn-warning btn-sm" id="editar" >
+                             <i class="fas fa-edit"></i>
+                         </a>
                         <button href="control.php" class="btn btn-danger btn-sm" id="excluir" >
                             <i class="fas fa-trash-alt"></i>
                             <!--                            onclick="deletePerson(--><?//= $professores[$i]['id'] ?><!--)"-->
@@ -62,7 +66,7 @@ include_once 'components/menu.php';
                         </button>
                     </td>
                 </tr>
-                <!--            --><?php //} ?>
+                <?php } ?>
                 </tbody>
             </table>
         </div>

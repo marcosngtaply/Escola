@@ -2,7 +2,11 @@
 include_once 'components/header.php';
 include_once 'components/menu.php';
 
+use App\Dao\ProfessorDao;
 
+$professores = new ProfessorDao();
+
+$arrProfessores = $professores->ListProf();
 
 ?>
 <div class="col-md-12 text-center mt-5">
@@ -31,43 +35,46 @@ include_once 'components/menu.php';
                 </tr>
                 </thead>
                 <tbody>
-    <!--            --><?php //for ($i = 0; $i < count($professores); $i++) { ?>
+                <?php for ($i = 0; $i < count($arrProfessores); $i++) { ?>
                     <tr class="text-center">
                         <td>
-    <!--                    --><?//= $professores[$i]['id'] ?>
-                            2365897-4
+                            <?= $arrProfessores[$i]['matricula'] ?>
+
                         </td>
                         <td>
-    <!--                    --><?//= $professores[$i]['nomePessoa'] ?>
-                            João
+                            <?= $arrProfessores[$i]['nome'] ?>
+
                         </td>
                         <td>
-    <!--                    --><?//= $professores[$i]['telefone'] ?>
-                            700746101-20
+                            <?= $arrProfessores[$i]['cpf'] ?>
+
                         </td>
                         <td>
-                            <!--                        --><?//= $professores[$i]['telefone'] ?>
-                            Masc
+                            <?php if ($arrProfessores[$i]['sexo'] == 'F'){ ?>
+                                Feminino
+                            <?php } else { ?>
+                                Masculino
+                            <?php } ?>
                         </td>
                         <td>
-                            <!--                        --><?//= $professores[$i]['telefone'] ?>
-                            13/08/2007
+                            <?= $arrProfessores[$i]['ingresso'] ?>
+
                         </td>
                         <td>
-    <!--                        <a href="novo.php?id=--><?//= $professores[$i]['id'] ?><!--" class="btn btn-warning btn-sm" id="editar" >-->
-    <!--                            <i class="fas fa-edit"></i>-->
-    <!--                        </a>-->
-                            <button href="control.php" class="btn btn-danger btn-sm" id="excluir" >
+                            <a href="cadastroProfessor.php?id=<?= $arrProfessores[$i]['id'] ?>" class="btn btn-warning btn-sm" id="editar" >
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button onclick="deleteProf(<?= $arrProfessores[$i]['id'] ?>)" class="btn btn-danger btn-sm" id="excluir" type="button" >
                                 <i class="fas fa-trash-alt"></i>
-    <!--                            onclick="deletePerson(--><?//= $professores[$i]['id'] ?><!--)"-->
+    <!--                            onclick="deleteProf(--><?//= $arrProfessores[$i]['id'] ?><!--)"-->
                             </button>
                             <button class="btn btn-success btn-sm" id="verificar" data-toggle="modal" data-target="#modalView">
                                 <i class="fas fa-user-check"></i>
-    <!--                            onclick="showForm(--><?//= $professores[$i]['id'] ?><!--)"-->
+    <!--                            onclick="showProf(--><?//= $arrProfessores[$i]['id'] ?><!--)"-->
                             </button>
                         </td>
                     </tr>
-    <!--            --><?php //} ?>
+                <?php } ?>
                 </tbody>
             </table>
         </div>

@@ -1,9 +1,19 @@
 <?php
 header("Content-Type: application/json");
+
+
 use App\Dao\PessoaDao;
 use App\Dao\AlunoDao;
 
-echo "testando hotfix";
+if (isset($_GET['nextId'])) {
+    $aluno = new AlunoDao();
+
+    echo json_encode($aluno->getNextId());
+    exit;
+}
+
+
+
 if(!isset($_POST['excluir'])){
 
     $pessoa = new PessoaDao();
@@ -11,12 +21,21 @@ if(!isset($_POST['excluir'])){
         ->setCpf($_POST['cpfAluno'] == '' ? null : $_POST['cpfAluno'])
         ->setSexo($_POST['sexoAluno'] == '' ? null : $_POST['sexoAluno']);
 
-    $aluno = new AlunoDao();
-    $aluno->setPessoa($pessoa)
-        ->setTelefone($_POST['telefone'] == '' ? null : $_POST['telefone'])
-        ->setMatricula($_POST['matriculaAluno'] == '' ? null : $_POST['matriculaAluno']);
+    if (isset($_POST['editar'])) {
+        $id = $_POST['id'];
 
-    $aluno->save();
+        //PARTE DE EDIÇÂO
+
+
+
+    } else {
+        $aluno = new AlunoDao();
+        $aluno->setPessoa($pessoa)
+            ->setTelefone($_POST['telefone'] == '' ? null : $_POST['telefone'])
+            ->setMatricula($_POST['matriculaAluno'] == '' ? null : $_POST['matriculaAluno']);
+
+        $aluno->save();
+    }
 
     if($pessoa->getDanielId() > 0){
         $arr['status'] = true;
@@ -28,5 +47,22 @@ if(!isset($_POST['excluir'])){
     echo json_encode($arr);
 
 } else {
+    //PARTE DE EXCLUSÃO
+//$pessoa = new PessoaDao();
 
+    $aluno = new AlunoDao();
+    $idAluno = $_POST['id'];
+
+    $result = $aluno->deleteAluno($idAluno);
+
+    // $result = (new AlunoDao())->deleteAluno($_POST['id']);
+
+    if($result > 0){
+        $arr['status'] = true;
+        $arr['mensagem'] = "Aluno excluído com sucesso!";
+    } else {
+        $arr['status'] = false;
+        $arr['mensagem'] = "Aluno não pôde ser exluído do sistema!";
+    }
+    echo json_encode($arr);
 }

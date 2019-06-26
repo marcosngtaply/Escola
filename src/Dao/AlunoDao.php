@@ -4,6 +4,7 @@
 namespace App\Dao;
 
 use \App\Model\Aluno;
+use PDO;
 
 class AlunoDao extends Aluno
 {
@@ -35,4 +36,48 @@ class AlunoDao extends Aluno
         }
 
     }
+
+    public function getNextId(): array
+    {
+        $sql = "SELECT Max(id) + 1 AS nextId FROM escola.alunos";
+
+        $stmt = $this->getConnect()->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    }
+    public function getData($id = null)
+    {
+        if ($id == null) {
+            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id';
+
+        } else {
+            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id WHERE al.id = :id';
+
+        }
+
+        $stmt = $this->getConnect()->prepare($sql);
+
+        if ($id != null) {
+            $stmt->bindValue(':id', $id);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
+    public function deleteAluno($id): int
+    {
+        $sql = "DELETE FROM escola.pessoas WHERE id = (SELECT al.pessoa from alunos al inner join pessoas p on al.pessoa = p.id where al.id = :id)";
+
+        $stmt = $this->getConnect()->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
 }

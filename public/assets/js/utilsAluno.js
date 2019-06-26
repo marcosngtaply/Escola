@@ -16,7 +16,7 @@ function saveAluno() {
         return false;
     }
     $.post(url, valores, function (data) {
-        if(data.status == true){
+        if(data.status === true){
             alert(data.msg);
             window.open('home.php', '_self');
         } else {
@@ -26,7 +26,7 @@ function saveAluno() {
     // alert('Salvo')
 }
 
-function deleteProf(id){
+function deleteAluno(id){
 
     let teste = confirm('Tem certeza que deseja excluir este cadastro?');
 
@@ -41,7 +41,7 @@ function deleteProf(id){
     };
 
     $.post(url, dados, function(result){
-        if (result.status == true) {
+        if (result.status === true) {
             window.open('index.php', '_self');
         } else {
             alert(result.msg);
@@ -75,7 +75,7 @@ function isValidAluno() {
     let isValid = true;
 
     for (let i = 0; i < campos.length; i++){
-        if (campos[i].value == ''){
+        if (campos[i].value === ''){
             isValid = false;
         }
     }

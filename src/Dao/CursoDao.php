@@ -4,24 +4,44 @@
 namespace App\Dao;
 
 use App\Model\Curso;
+use PDO;
+
 class CursoDao extends Curso
 {
     use Connect;
 
     public function save(): int
     {
-//        $sql = "INSERT INTO escola.curso (nome, capacidade, professor, ativo) VALUES (:nome, :capacidade, :professor, :ativo)";
-        $sql = "INSERT INTO escola.cursos (nome, capacidade) VALUES (:nome, :capacidade)";
+        $sql = "INSERT INTO escola.cursos (nome, capacidade) VALUES (:nomeCurso, :capacidade)";
 
+        try {
+            $stmtCurso = $this->getConnect()->prepare($sql);
+            $stmtCurso->bindValue(':nomeCurso', $this->getNome());
+            $stmtCurso->bindValue(':capacidade', $this->getCapacidade());
+
+            $stmtCurso->execute();
+            return $this->getDanielId();
+
+        } catch (\PDOException $evento){
+
+            return false;
+        }
+
+        //$stmt->debugDumpParams();
+    }
+
+    public function ListCursos(): array
+    {
+        // SQL select
+        $sql = "SELECT * FROM escola.cursos ORDER BY id";
+
+
+        // Criar statement
         $stmt = $this->getConnect()->prepare($sql);
-        $stmt->bindValue(':nomeCurso', $this->getNome());
-        $stmt->bindValue(':capacidade', $this->getCapacidade());
-//        $stmt->bindValue(':professor', $this->getProfessor());
-//        $stmt->bindValue(':ativo', $this->getAtivo());
-
         $stmt->execute();
 
-        return $this->getDanielId();
-        //$stmt->debugDumpParams();
+        $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $cursos;
     }
 }
