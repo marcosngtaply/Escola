@@ -12,7 +12,12 @@ if (isset($_GET['nextId'])) {
     exit;
 }
 
+if(isset($_GET['getData'])){
+    $aluno = new AlunoDao();
 
+    echo json_encode($aluno->getData($_GET['id']));
+    exit;
+}
 
 if(!isset($_POST['excluir'])){
 

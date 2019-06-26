@@ -9,12 +9,15 @@ include_once 'components/menu.php';
             <h2>Cadastro de Alunos</h2>
         </div>
     </div> <br>
-    <cadastro :aluno="<?= isset($_GET['id']) ? $_GET['id'] : 0 ?>" >
-
-            :listagem="<?= isset($_GET['listar']) ? true : false ?>"
+    <cadastro
+            :aluno="<?= isset($_GET['id']) ? $_GET['id'] : 0 ?>"
+            :listagem="<?= isset($_GET['listar']) ? 1 : 0 ?>"
+    >
     </cadastro>
-    <listar>
-        :listagem="<?= isset($_GET['listar']) ? true : false ?>"
+    <listar
+            :listagem="<?= isset($_GET['listar']) ? 1 : 0 ?>"
+    >
+
     </listar>
 </div>
 

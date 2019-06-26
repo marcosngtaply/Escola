@@ -2,6 +2,10 @@ var listagem = Vue.extend({
     template: '#templateViewAluno',
 
 
+    props: [
+        'listagem'
+    ],
+
     data() {
         return {
             dados: []
@@ -9,30 +13,50 @@ var listagem = Vue.extend({
     },
 
     computed: {
-
+        isListagem(){
+            return this.listagem;
+        }
     }
 
 ,
     methods: {
         getData() {
-            let url = '../../src/Controller/controllerAluno.php?getData&id=' + this.aluno;
+            let url = '../../src/Controller/controllerAluno.php?getData&id=0';
 
             let self = this;
 
             $.get(url, {}, function (data) {
-                self.dados = data[0];
-
-                self.id = data[0].id;
-                self.nomeAluno = data[0].nomeAluno;
-                self.cpfAluno = data[0].cpfAluno;
-                self.matriculaAluno = data[0].matriculaAluno;
-                self.sexoAluno = data[0].sexoAluno;
-                self.telefone = data[0].telefone;
+                self.dados = data;
             });
         },
+        deleteAluno(id) {
 
+            let teste = confirm('Tem certeza que deseja excluir este cadastro?');
+            let self = this;
+
+            if (!teste) {
+                return false;
+            }
+
+            let url = '../../src/Controller/controllerAluno.php';
+            let dados = {
+                'id': id,
+                'excluir': true
+            };
+
+            $.post(url, dados, function (result) {
+
+                if (result.status === true) {
+                    self.getData();
+                }
+            });
+
+        },
 
     },
+
+
+
 
     mounted() {
         this.getData();

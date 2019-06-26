@@ -1,4 +1,4 @@
-<div>
+<div v-if="listagem === 0">
     <div class="alert alert-dismissible fade show" :class="[erroCadastro ? 'alert-danger' : 'alert-success']" role="alert" v-if="statusCadastro">
         <strong v-if="!erroCadastro">Sucesso!</strong>
         <strong v-else >Erro!</strong>
