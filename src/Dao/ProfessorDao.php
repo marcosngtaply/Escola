@@ -53,17 +53,14 @@ class ProfessorDao extends Professor
         return $professores;
     }
 
-    public function deleteProf($id): int
+    public function deleteProf($idPessoa): int
     {
-        $sql = "DELETE FROM escola.professores where id = :id";
-
-        $idProfessor = $id;
+        $sql = "DELETE FROM pessoas where id = :id";
 
         $stmt = $this->getConnect()->prepare($sql);
-        $stmt->bindValue(':id', $idProfessor);
+        $stmt->bindValue(':id', $idPessoa);
         $stmt->execute();
 
         return $stmt->rowCount();
-
     }
 }

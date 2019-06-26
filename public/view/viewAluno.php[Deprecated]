@@ -1,0 +1,34 @@
+<?php
+include_once 'components/header.php';
+include_once 'components/menu.php';
+
+use App\Dao\AlunoDao;
+
+$alunos = new AlunoDao();
+$arrAlunos = $alunos->getData();
+
+?>
+<div class="container" id="app">
+    <div class="col-md-12 text-center mt-5">
+        <h2>Alunos Cadastrados</h2>
+    </div> <br>
+    <cadastro> :aluno="<?= isset($_GET['id']) ? $_GET['id'] : 0 ?>"</cadastro>
+    <view></view>
+</div>
+
+<template id="templateViewAluno">
+    <?php require_once 'templates/templateViewAluno.php' ?>
+</template>
+
+<template id="templateAluno">
+    <?php require_once 'templates/templateAlunos.php' ?>
+</template>
+
+
+<script src="../assets/vuejs/componentes/cadastroAluno.vue.js"></script>
+<script src="../assets/vuejs/componentes/viewAluno.vue.js"></script>
+<script src="../assets/js/utilsAluno.js"></script>
+<script src="../assets/vuejs/aluno.vue.js"></script>
+<?php
+include_once 'components/footer.php';
+?>

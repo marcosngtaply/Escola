@@ -5,7 +5,8 @@ new Vue({
 
     },
     components: {
-      'cadastro': cadastroAluno
+        'cadastro': cadastroAluno,
+        'listar': listagem
     },
 
     methods: {

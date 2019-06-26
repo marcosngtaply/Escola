@@ -48,34 +48,36 @@ class AlunoDao extends Aluno
 
     }
     public function getData($id = null)
-
     {
-        if($id = null){
+        if ($id == null) {
+            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id';
 
-            $sql = "SELECT * FROM escola.alunos";
-
-            $stmt = $this->getConnect()->prepare($sql);
-
-            $stmt->execute();
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } else {
-            $sql = "traz Join";
+            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id WHERE al.id = :id';
+
         }
-    }
 
-    public function ListAlunos(): array
-    {
-        // SQL select
-        $sql = "SELECT al.id, al.matricula, ps.nome, ps.cpf, al.telefone FROM alunos al INNER JOIN
-    pessoas ps ON al.pessoa = ps.id";
-
-
-        // Criar statement
         $stmt = $this->getConnect()->prepare($sql);
+
+        if ($id != null) {
+            $stmt->bindValue(':id', $id);
+        }
+
         $stmt->execute();
 
-        $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $alunos;
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+
+    public function deleteAluno($id): int
+    {
+        $sql = "DELETE FROM escola.pessoas WHERE id = (SELECT al.pessoa from alunos al inner join pessoas p on al.pessoa = p.id where al.id = :id)";
+
+        $stmt = $this->getConnect()->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
 }

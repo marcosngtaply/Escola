@@ -13,6 +13,7 @@ if (isset($_GET['nextId'])) {
 }
 
 
+
 if(!isset($_POST['excluir'])){
 
     $pessoa = new PessoaDao();
@@ -24,6 +25,8 @@ if(!isset($_POST['excluir'])){
         $id = $_POST['id'];
 
         //PARTE DE EDIÇÂO
+
+
 
     } else {
         $aluno = new AlunoDao();
@@ -44,5 +47,22 @@ if(!isset($_POST['excluir'])){
     echo json_encode($arr);
 
 } else {
-    //PARTE DE EXLCUSÃO
+    //PARTE DE EXCLUSÃO
+//$pessoa = new PessoaDao();
+
+    $aluno = new AlunoDao();
+    $idAluno = $_POST['id'];
+
+    $result = $aluno->deleteAluno($idAluno);
+
+    // $result = (new AlunoDao())->deleteAluno($_POST['id']);
+
+    if($result > 0){
+        $arr['status'] = true;
+        $arr['mensagem'] = "Aluno excluído com sucesso!";
+    } else {
+        $arr['status'] = false;
+        $arr['mensagem'] = "Aluno não pôde ser exluído do sistema!";
+    }
+    echo json_encode($arr);
 }
