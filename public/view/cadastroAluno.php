@@ -4,11 +4,7 @@ include_once 'components/menu.php';
 
 ?>
 <div class="container" id="app">
-    <div class="col-md-12">
-        <div class="col-md-12 text-center mt-5">
-            <h2>Cadastro de Alunos</h2>
-        </div>
-    </div> <br>
+
     <cadastro
             :aluno="<?= isset($_GET['id']) ? $_GET['id'] : 0 ?>"
             :listagem="<?= isset($_GET['listar']) ? 1 : 0 ?>"

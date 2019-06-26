@@ -21,6 +21,7 @@ var listagem = Vue.extend({
 ,
     methods: {
         getData() {
+            // ID = 0 Traz todos os registros
             let url = '../../src/Controller/controllerAluno.php?getData&id=0';
 
             let self = this;
@@ -53,10 +54,11 @@ var listagem = Vue.extend({
 
         },
 
+        editAluno(id) {
+          window.open('cadastroAluno.php?id=' + id, '_self')
+        }
+
     },
-
-
-
 
     mounted() {
         this.getData();

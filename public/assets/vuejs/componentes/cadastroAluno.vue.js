@@ -62,7 +62,7 @@ var cadastroAluno = Vue.extend({
                 self.statusCadastro = true;
                 if (data.status) {
                     self.erroCadastro = false;
-                    self.messagem = data.msg;
+                    self.mensagem = data.msg;
 
                     self.nextId();
                     self.nomeAluno = '';
@@ -73,7 +73,7 @@ var cadastroAluno = Vue.extend({
 
                 } else {
                     self.erroCadastro = true;
-                    self.messagem = data.msg
+                    self.mensagem = data.msg
                 }
             });
         },
@@ -84,6 +84,7 @@ var cadastroAluno = Vue.extend({
             let self = this;
 
             let valores = {
+                'idAluno': this.id,
                 'idPessoa': this.dados.pessoa,
                 'nomeAluno': this.nomeAluno,
                 'cpfAluno': this.cpfAluno,
@@ -101,11 +102,11 @@ var cadastroAluno = Vue.extend({
                 self.statusCadastro = true;
                 if (data.status) {
                     self.erroCadastro = false;
-                    self.messagem = data.msg;
+                    self.mensagem = data.msg;
 
                 } else {
                     self.erroCadastro = true;
-                    self.messagem = data.msg
+                    self.mensagem = data.msg
                 }
             });
         },
@@ -121,10 +122,10 @@ var cadastroAluno = Vue.extend({
                 self.dados = data[0];
 
                 self.id = data[0].id;
-                self.nomeAluno = data[0].nomeAluno;
-                self.cpfAluno = data[0].cpfAluno;
-                self.matriculaAluno = data[0].matriculaAluno;
-                self.sexoAluno = data[0].sexoAluno;
+                self.nomeAluno = data[0].nome;
+                self.cpfAluno = data[0].cpf;
+                self.matriculaAluno = data[0].matricula;
+                self.sexoAluno = data[0].sexo;
                 self.telefone = data[0].telefone;
             });
         },
@@ -138,7 +139,7 @@ var cadastroAluno = Vue.extend({
             });
 
         },
-        
+
 
     },
 

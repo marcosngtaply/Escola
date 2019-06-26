@@ -38,40 +38,31 @@ class AlunoDao extends Aluno
 
     }
 
-    public function deleteAluno($id): int
+    public function deleteAluno($id): bool
     {
-        $sql = "DELETE FROM escola.pessoas WHERE id = (SELECT al.pessoa from alunos al inner join pessoas p on al.pessoa = p.id where al.id = :id)";
-
-        $stmt = $this->getConnect()->prepare($sql);
-        $stmt->bindValue(':id', $id);
-        $stmt->execute();
-
-        return $stmt->rowCount();
+        return $this->getPessoa()->delete($id);
     }
 
-    public function editAluno(): int
+    public function editAluno(): bool
     {
-        $sql = 'UPDATE alunos SET matricula = :matricula, telefone = :telefone WHERE pessoa = :idPessoa';
+        $sql = 'UPDATE alunos SET matricula = :matriculaAluno, telefone = :telefone  WHERE id = :id';
 
-        $this->initTransaction();
         try {
+            $editouPessoa = $this->getPessoa()->edit();
 
             $stmt = $this->getConnect()->prepare($sql);
-            $stmt->bindValue(':matricula' , $this->getMatricula());
+            $stmt->bindValue(':matriculaAluno' , $this->getMatricula());
             $stmt->bindValue(':telefone', $this->getTelefone());
-            $stmt->bindValue(':idPessoa', $this->getPessoa()->getId());
+            $stmt->bindValue(':id', $this->getId());
             $stmt->execute();
 
             //$stmt->debugDumpParams();
+            $editouAluno = $stmt->rowCount() > 0;
 
-            $this->getPessoa()->edit();
-            $this->commitTransaction();
-
-            return $this->getDanielId();
+            return $editouAluno || $editouPessoa;
         } catch(PDOException $evento) {
 
-            $this->rollbackTransaction();
-            return -1;
+            return false;
         }
     }
 
@@ -88,9 +79,9 @@ class AlunoDao extends Aluno
     public function getData($id = null)
     {
         if ($id == 0) {
-            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id';
+            $sql = 'SELECT al.id, al.matricula, al.telefone, al.pessoa, pe.nome, pe.cpf, pe.sexo FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id';
         } else {
-            $sql = 'SELECT * FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id WHERE al.id = :id';
+            $sql = 'SELECT al.id, al.matricula, al.telefone, al.pessoa, pe.nome, pe.cpf, pe.sexo FROM alunos al INNER JOIN pessoas pe ON al.pessoa = pe.id WHERE al.id = :id';
         }
 
         $stmt = $this->getConnect()->prepare($sql);

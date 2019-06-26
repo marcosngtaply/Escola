@@ -1,5 +1,9 @@
 <div v-if="isListagem">
-    <br>
+    <div class="col-md-12">
+        <div class="col-md-12 text-center mt-5">
+            <h2>Lista de Alunos</h2>
+        </div>
+    </div>
     <div class="container border">
         <div class="form-control-sm mt-4">
             <div class="col-md-12 text-right">
@@ -30,13 +34,12 @@
                             <button onclick="" class="btn btn-success btn-sm">
                                 <i class="far fa-eye"></i>
                             </button>
-                            <button type="button" onclick="editAluno()" class="btn btn-warning btn-sm" id="editar">
+                            <button type="button" @click="editAluno(item.id)" class="btn btn-warning btn-sm" id="editar">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button onclick="" class="btn btn-danger btn-sm" id="excluir">
+                            <button @click="deleteAluno(item.pessoa)" class="btn btn-danger btn-sm" id="excluir">
                                 <i class="far fa-trash-alt"></i>
                             </button>
-
                         </td>
                     </tr>
                     </tbody>
