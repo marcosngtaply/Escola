@@ -26,7 +26,7 @@
                    aria-expanded="false"><i class="fas fa-user-graduate"></i> Alunos</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
                     <a class="dropdown-item" href="cadastroAluno.php"><i class="fas fa-plus"></i> Novo</a>
-                    <a class="dropdown-item" href="viewAluno.php"><i class="far fa-list-alt"></i> Listar Alunos</a>
+                    <a class="dropdown-item" href="cadastroAluno.php?listar"><i class="far fa-list-alt"></i> Listar Alunos</a>
                     <a class="dropdown-item" href="#"><i class="fas fa-user-check"></i> Matricular</a>
                 </div>
             </li>

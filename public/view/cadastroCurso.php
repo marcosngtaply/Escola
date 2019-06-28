@@ -8,7 +8,8 @@ include_once 'components/menu.php';
         <div class="col-md-12 text-center mt-5">
             <h2>Cadastro de Cursos</h2>
         </div>
-    </div> <br>
+    </div>
+    <br>
     <div class="container border mt-3">
         <div class="col-md-2 mt-2">
             <fieldset disabled>
