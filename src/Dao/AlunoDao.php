@@ -11,7 +11,7 @@ class AlunoDao extends Aluno
 {
     use Connect;
 
-    public function save(): int
+    public function saveAluno(): bool
     {
         $sql = "INSERT INTO escola.alunos (matricula, telefone, pessoa) VALUES (:matricula, :telefone, :pessoa)";
 
@@ -29,7 +29,7 @@ class AlunoDao extends Aluno
             $stmtAluno->execute();
             $this->commitTransaction();
 
-            return $this->getDanielId();
+            return $stmtAluno->rowCount() > 0;
 
         } catch (\PDOException $evento){
 

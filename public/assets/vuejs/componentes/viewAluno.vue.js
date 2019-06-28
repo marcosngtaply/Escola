@@ -8,17 +8,17 @@ var listagem = Vue.extend({
 
     data() {
         return {
-            dados: []
+            dados: [],
+            pessoa: {}
         }
     },
 
     computed: {
         isListagem(){
             return this.listagem;
-        }
-    }
+        },
+    },
 
-,
     methods: {
         getData() {
             // ID = 0 Traz todos os registros
@@ -28,6 +28,17 @@ var listagem = Vue.extend({
 
             $.get(url, {}, function (data) {
                 self.dados = data;
+            });
+        },
+        mostrarAluno(id) {
+            let url = '../../src/Controller/controllerAluno.php?getData&id=' + id;
+
+            let self = this;
+
+            $.get(url, {}, function (data) {
+                // console.log(data);
+                self.pessoa = data[0];
+
             });
         },
         deleteAluno(id) {
@@ -56,7 +67,8 @@ var listagem = Vue.extend({
 
         editAluno(id) {
           window.open('cadastroAluno.php?id=' + id, '_self')
-        }
+        },
+
 
     },
 

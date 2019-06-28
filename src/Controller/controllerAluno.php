@@ -1,29 +1,26 @@
 <?php
 header("Content-Type: application/json");
 
-
 use App\Dao\PessoaDao;
 use App\Dao\AlunoDao;
-
 
 $aluno = new AlunoDao();
 $pessoa = new PessoaDao();
 
-if (isset($_GET['nextId'])) {
-//    $aluno = new AlunoDao();
+if (isset($_GET['nextId'])) { //traz o proximo ID para o campo ID na hra do cadastro
 
     echo json_encode($aluno->getNextId());
     exit;
 }
 
-if(isset($_GET['getData'])){
-//    $aluno = new AlunoDao();
+if(isset($_GET['getData'])){ //traz todas as informações do ID empecífico
 
     echo json_encode($aluno->getData($_GET['id']));
     exit;
 }
 
-if(!isset($_POST['excluir'])){
+if(!isset($_POST['excluir'])){ //SE NAO FOR SETADO EXCLUIR
+
     $pessoa->setNome($_POST['nomeAluno'] == '' ? null : $_POST['nomeAluno'])
         ->setCpf($_POST['cpfAluno'] == '' ? null : $_POST['cpfAluno'])
         ->setSexo($_POST['sexoAluno'] == '' ? null : $_POST['sexoAluno']);
@@ -32,14 +29,14 @@ if(!isset($_POST['excluir'])){
         ->setTelefone($_POST['telefone'] == '' ? null : $_POST['telefone'])
         ->setMatricula($_POST['matriculaAluno'] == '' ? null : $_POST['matriculaAluno']);
 
-    if (isset($_POST['editar'])) {
+    if (isset($_POST['editar'])) {  //PARTE DE EDIÇÂO
+
         $aluno->setId($_POST['idAluno']);
         $aluno->getPessoa()->setId($_POST['idPessoa']);
 
-        //PARTE DE EDIÇÂO
-        $teste = $aluno->editAluno();
+        $confirmacao = $aluno->editAluno();
 
-        if($teste){
+        if($confirmacao){
             $arr['status'] = true;
             $arr['msg'] = 'Cadastro do Aluno ' . $pessoa->getNome() . ' foi salvo com sucesso!';
         } else {
@@ -47,11 +44,11 @@ if(!isset($_POST['excluir'])){
             $arr['msg'] = 'Cadastro do Aluno não foi alterado!';
         }
 
-    } else {
-        // Quando for salvar
-        $aluno->save();
+    } else { // QUANDO FOR SALVAR
 
-        if($pessoa->getDanielId() > 0){
+        $confirmacao = $aluno->saveAluno();
+//         var_dump($confirmacao);
+        if($confirmacao == true){
             $arr['status'] = true;
             $arr['msg'] = 'Cadastro do Aluno ' . $pessoa->getNome() . ' foi salvo com sucesso!';
         } else {
@@ -62,16 +59,15 @@ if(!isset($_POST['excluir'])){
 
     echo json_encode($arr);
 
-} else {
-    //PARTE DE EXCLUSÃO
+} else { //PARTE DE EXCLUSÃO
 
     $idPessoa = $_POST['id'];
     $aluno->setPessoa($pessoa);
-    $result = $aluno->deleteAluno($idPessoa);
+    $confirmacao = $aluno->deleteAluno($idPessoa);
 
-    // $result = (new AlunoDao())->deleteAluno($_POST['id']);
+    // $confirmacao = (new AlunoDao())->deleteAluno($_POST['id']);
 
-    if($result){
+    if($confirmacao){
         $arr['status'] = true;
         $arr['mensagem'] = "Aluno excluído com sucesso!";
     } else {
