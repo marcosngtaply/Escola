@@ -1,4 +1,10 @@
-<div>
+<div v-if="listagem === 0">
+    <div class="col-md-12">
+        <div class="col-md-12 text-center mt-5">
+            <h2 v-if="!isEdit">Cadastro de Alunos</h2>
+            <h2 v-else>Edição de Alunos</h2>
+        </div>
+    </div>
     <div class="alert alert-dismissible fade show" :class="[erroCadastro ? 'alert-danger' : 'alert-success']" role="alert" v-if="statusCadastro">
         <strong v-if="!erroCadastro">Sucesso!</strong>
         <strong v-else >Erro!</strong>
@@ -45,10 +51,20 @@
         </div>
     </div>
     <div class="form-control-sm text-center mt-2">
-        <button @click="saveAluno" class="btn btn-primary btn-sm" type="button" id="salvar" name="salvar">
+<!--       Dentro do Cadastro-->
+        <button v-if="!isEdit" @click="saveAluno" class="btn btn-primary btn-sm" type="button" id="salvar" name="salvar">
             <i class="fas fa-plus"></i> Salvar
         </button>
-        <a href="home.php" class="btn btn-secondary btn-sm">
+<!--        Dentro da Edição-->
+        <button v-else @click="editAluno" class="btn btn-warning btn-sm" type="button" id="editar" name="editar">
+            <i class="fas fa-plus"></i> Editar
+        </button>
+<!--       Dentro do Cadastro-->
+        <a v-if="!isEdit" href="home.php" class="btn btn-secondary btn-sm">
+            <i class="fas fa-undo-alt"></i> Voltar
+        </a>
+<!--        Dentro da Edição-->
+        <a v-else href="cadastroAluno.php?listar" class="btn btn-secondary btn-sm">
             <i class="fas fa-undo-alt"></i> Voltar
         </a>
     </div>

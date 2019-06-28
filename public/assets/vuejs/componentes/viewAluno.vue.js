@@ -2,33 +2,71 @@ var listagem = Vue.extend({
     template: '#templateViewAluno',
 
 
+    props: [
+        'listagem'
+    ],
+
     data() {
         return {
-            dados: []
+            dados: [],
+            pessoa: {}
         }
     },
 
     computed: {
+        isListagem(){
+            return this.listagem;
+        },
+    },
 
-    }
-
-,
     methods: {
         getData() {
-            let url = '../../src/Controller/controllerAluno.php?getData&id=' + this.aluno;
+            // ID = 0 Traz todos os registros
+            let url = '../../src/Controller/controllerAluno.php?getData&id=0';
 
             let self = this;
 
             $.get(url, {}, function (data) {
-                self.dados = data[0];
-
-                self.id = data[0].id;
-                self.nomeAluno = data[0].nomeAluno;
-                self.cpfAluno = data[0].cpfAluno;
-                self.matriculaAluno = data[0].matriculaAluno;
-                self.sexoAluno = data[0].sexoAluno;
-                self.telefone = data[0].telefone;
+                self.dados = data;
             });
+        },
+        mostrarAluno(id) {
+            let url = '../../src/Controller/controllerAluno.php?getData&id=' + id;
+
+            let self = this;
+
+            $.get(url, {}, function (data) {
+                // console.log(data);
+                self.pessoa = data[0];
+
+            });
+        },
+        deleteAluno(id) {
+
+            let teste = confirm('Tem certeza que deseja excluir este cadastro?');
+            let self = this;
+
+            if (!teste) {
+                return false;
+            }
+
+            let url = '../../src/Controller/controllerAluno.php';
+            let dados = {
+                'id': id,
+                'excluir': true
+            };
+
+            $.post(url, dados, function (result) {
+
+                if (result.status === true) {
+                    self.getData();
+                }
+            });
+
+        },
+
+        editAluno(id) {
+          window.open('cadastroAluno.php?id=' + id, '_self')
         },
 
 
