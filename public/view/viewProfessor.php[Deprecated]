@@ -10,7 +10,7 @@ $arrProfessores = $professores->ListProf();
 
 ?>
 <div class="col-md-12 text-center mt-5">
-        <h2>Professores Cadastrados</h2>
+    <h2>Professores Cadastrados</h2>
 </div>
 <br>
 <div class="container border">
@@ -35,46 +35,35 @@ $arrProfessores = $professores->ListProf();
                 </tr>
                 </thead>
                 <tbody>
-                <?php for ($i = 0; $i < count($arrProfessores); $i++) { ?>
-                    <tr class="text-center">
+                    <tr class="form form-control-sm text-center" v-for="item in dados">
                         <td>
-                            <?= $arrProfessores[$i]['matricula'] ?>
-
+                            {{ item.matricula }}
                         </td>
                         <td>
-                            <?= $arrProfessores[$i]['nome'] ?>
-
+                            {{ item.nome }}
                         </td>
                         <td>
-                            <?= $arrProfessores[$i]['cpf'] ?>
-
+                            {{ item.cpf }}
                         </td>
                         <td>
-                            <?php if ($arrProfessores[$i]['sexo'] == 'F'){ ?>
-                                Feminino
-                            <?php } else { ?>
-                                Masculino
-                            <?php } ?>
+                            {{ item.sexo }}
                         </td>
                         <td>
-                            <?= $arrProfessores[$i]['ingresso'] ?>
-
+                            {{ item.ingresso }}
                         </td>
                         <td>
-                            <a href="cadastroProfessor.php?id=<?= $arrProfessores[$i]['id'] ?>" class="btn btn-warning btn-sm" id="editar" >
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <button onclick="deleteProf(<?= $arrProfessores[$i]['id'] ?>)" class="btn btn-danger btn-sm" id="excluir" type="button" >
-                                <i class="fas fa-trash-alt"></i>
-    <!--                            onclick="deleteProf(--><?//= $arrProfessores[$i]['id'] ?><!--)"-->
+                            <button @click="mostrarProf(item.id)" class="btn btn-success btn-sm" title="Visualizar" id="verificar"
+                                    data-toggle="modal" data-target="#modalProf">
+                                <i class="far fa-eye" style="font-size: smaller"></i>
                             </button>
-                            <button class="btn btn-success btn-sm" id="verificar" data-toggle="modal" data-target="#modalView">
-                                <i class="fas fa-user-check"></i>
-    <!--                            onclick="showProf(--><?//= $arrProfessores[$i]['id'] ?><!--)"-->
+                            <button type="button" @click="editProf(item.id)" class="btn btn-warning btn-sm" title="Editar" id="editar">
+                                <i class="far fa-edit" style="font-size: smaller"></i>
+                            </button>
+                            <button @click="deleteProf(item.pessoa)" class="btn btn-danger btn-sm" title="Excluir" id="excluir">
+                                <i class="far fa-trash-alt" style="font-size: smaller"></i>
                             </button>
                         </td>
                     </tr>
-                <?php } ?>
                 </tbody>
             </table>
         </div>

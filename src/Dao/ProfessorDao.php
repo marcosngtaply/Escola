@@ -5,12 +5,13 @@ namespace App\Dao;
 
 use App\Model\Professor;
 use PDO;
+use PDOException;
 
 class ProfessorDao extends Professor
 {
     use Connect;
 
-    public function save(): int
+    public function saveProf(): bool
     {
         $sqlProfessor = "INSERT INTO escola.professores (matricula, ingresso, salario, pessoa) VALUES (:matricula, :ingresso, :salario, :pessoa)";
 
@@ -29,7 +30,7 @@ class ProfessorDao extends Professor
             $stmtProfessor->execute();
             $this->commitTransaction();
 
-            return $this->getDanielId();
+            return $stmtProfessor->rowCount() > 0;
 
         } catch (\PDOException $evento){
 
@@ -37,30 +38,62 @@ class ProfessorDao extends Professor
         }
 
     }
-    public function ListProf(): array
+
+    public function deleteProf($id): bool
     {
-        // SQL select
-        $sql = "SELECT prof.id, prof.matricula, ps.nome, ps.cpf, ps.sexo, prof.ingresso FROM professores prof INNER JOIN
-                pessoas ps ON prof.pessoa = ps.id";
-
-
-        // Criar statement
-        $stmt = $this->getConnect()->prepare($sql);
-        $stmt->execute();
-
-        $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $professores;
+        return $this->getPessoa()->delete($id);
     }
 
-    public function deleteProf($idPessoa): int
+    public function editProf(): bool
     {
-        $sql = "DELETE FROM pessoas where id = :id";
+        $sql = 'UPDATE professores SET matricula = :matriculaProf, salario = :salario, ingresso = :ingresso WHERE id = :id';
+
+        try {
+            $editouPessoa = $this->getPessoa()->edit();
+
+            $stmtProf = $this->getConnect()->prepare($sql);
+            $stmtProf->bindValue(':matriculaProf' , $this->getMatricula());
+            $stmtProf->bindValue(':salario', $this->getSalario());
+            $stmtProf->bindValue(':ingresso', $this->getIngresso());
+            $stmtProf->bindValue(':id', $this->getId());
+            $stmtProf->execute();
+
+            //$stmt->debugDumpParams();
+            $editouProfessor = $stmtProf->rowCount() > 0;
+
+            return $editouProfessor || $editouPessoa;
+        } catch(PDOException $evento) {
+
+            return false;
+        }
+    }
+    public function getNextId(): array
+    {
+        $sql = "SELECT Max(id) + 1 AS nextId FROM escola.professores";
 
         $stmt = $this->getConnect()->prepare($sql);
-        $stmt->bindValue(':id', $idPessoa);
+
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    }
+    public function getData($id = null)
+    {
+        if ($id == 0) {
+            $sql = 'SELECT pro.id, pro.matricula, pro.ingresso, pro.salario, pro.pessoa, pe.nome, pe.cpf, pe.sexo FROM professores pro INNER JOIN pessoas pe ON pro.pessoa = pe.id';
+        } else {
+            $sql = 'SELECT pro.id, pro.matricula, pro.ingresso, pro.salario, pro.pessoa, pe.nome, pe.cpf, pe.sexo FROM professores pro INNER JOIN pessoas pe ON pro.pessoa = pe.id WHERE pro.id = :id';
+        }
+
+        $stmt = $this->getConnect()->prepare($sql);
+
+        if ($id != 0) {
+            $stmt->bindValue(':id', $id);
+        }
+
         $stmt->execute();
 
-        return $stmt->rowCount();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
 }

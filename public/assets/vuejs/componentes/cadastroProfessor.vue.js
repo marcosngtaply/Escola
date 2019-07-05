@@ -1,24 +1,24 @@
-var cadastroAluno = Vue.extend({
-    template: '#templateCadastroAlunos',
+var cadastroProfessor = Vue.extend({
+    template: '#templateCadastroProfessores',
 
     props: [
-        'aluno',
+        'professor',
         'listagem'
     ],
     computed: {
         isEdit() {
-            return this.aluno !== 0;
+            return this.professor !== 0;
         }
     },
-
     data: function () {
         return {
             id: 0,
-            nomeAluno: '',
-            cpfAluno: '',
-            matriculaAluno: '',
-            sexoAluno: '',
-            telefone: '',
+            nomeProfessor: '',
+            cpfProfessor: '',
+            matriculaProfessor: '',
+            sexoProfessor: '',
+            ingresso: '',
+            salario: '',
             sexoLista: [
                 {
                     valor: '',
@@ -41,20 +41,21 @@ var cadastroAluno = Vue.extend({
     },
 
     methods: {
-        saveAluno() {
-            let url = '../../src/Controller/controllerAluno.php';
+        saveProf() {
+            let url = '../../src/Controller/controllerProfessor.php';
             let self = this;
 
             let valores = {
 
-                'nomeAluno': this.nomeAluno,
-                'cpfAluno': this.cpfAluno,
-                'sexoAluno': this.sexoAluno,
-                'matriculaAluno': this.matriculaAluno,
-                'telefone': this.telefone
+                'nomeProfessor': this.nomeProfessor,
+                'cpfProfessor': this.cpfProfessor,
+                'sexoProfessor': this.sexoProfessor,
+                'matriculaProfessor': this.matriculaProfessor,
+                'ingresso': this.ingresso,
+                'salario': this.salario
             };
 
-            if (!isValidAluno()) {
+            if (!isValidProf()) {
                 alert('Preencha todos os campos obrigatórios!');
                 return false;
             }
@@ -65,11 +66,12 @@ var cadastroAluno = Vue.extend({
                     self.mensagem = data.msg;
 
                     self.nextId();
-                    self.nomeAluno = '';
-                    self.cpfAluno = '';
-                    self.sexoAluno = '';
-                    self.telefone = '';
-                    self.matriculaAluno = '';
+                    self.nomeProfessor = '';
+                    self.cpfProfessor = '';
+                    self.sexoProfessor = '';
+                    self.ingresso = '';
+                    self.salario = '';
+                    self.matriculaProfessor = '';
 
                 } else {
                     self.erroCadastro = true;
@@ -78,23 +80,23 @@ var cadastroAluno = Vue.extend({
             });
         },
 
-
-        editAluno(){
-            let url = '../../src/Controller/controllerAluno.php';
+        editProf(){
+            let url = '../../src/Controller/controllerProfessor.php';
             let self = this;
 
             let valores = {
-                'idAluno': this.id,
+                'idProfessor': this.id,
                 'idPessoa': this.dados.pessoa,
-                'nomeAluno': this.nomeAluno,
-                'cpfAluno': this.cpfAluno,
-                'sexoAluno': this.sexoAluno,
-                'matriculaAluno': this.matriculaAluno,
-                'telefone': this.telefone,
+                'nomeProfessor': this.nomeProfessor,
+                'cpfProfessor': this.cpfProfessor,
+                'sexoProfessor': this.sexoProfessor,
+                'matriculaProfessor': this.matriculaProfessor,
+                'ingresso': this.ingresso,
+                'salario': this.salario,
                 'editar': true
             };
 
-            if (!isValidAluno()) {
+            if (!isValidProf()) {
                 alert('Preencha todos os campos obrigatórios!');
                 return false;
             }
@@ -111,10 +113,8 @@ var cadastroAluno = Vue.extend({
             });
         },
 
-
-
         getData() {
-            let url = '../../src/Controller/controllerAluno.php?getData&id=' + this.aluno;
+            let url = '../../src/Controller/controllerProfessor.php?getData&id=' + this.professor;
 
             let self = this;
 
@@ -122,16 +122,17 @@ var cadastroAluno = Vue.extend({
                 self.dados = data[0];
 
                 self.id = data[0].id;
-                self.nomeAluno = data[0].nome;
-                self.cpfAluno = data[0].cpf;
-                self.matriculaAluno = data[0].matricula;
-                self.sexoAluno = data[0].sexo;
-                self.telefone = data[0].telefone;
+                self.nomeProfessor = data[0].nome;
+                self.cpfProfessor = data[0].cpf;
+                self.matriculaProfessor = data[0].matricula;
+                self.sexoProfessor = data[0].sexo;
+                self.ingresso = data[0].ingresso;
+                self.salario = data[0].salario;
             });
         },
 
         nextId() {
-            let url = '../../src/Controller/controllerAluno.php?nextId';
+            let url = '../../src/Controller/controllerProfessor.php?nextId';
             let self = this;
 
             $.get(url, function (data) {
@@ -139,12 +140,10 @@ var cadastroAluno = Vue.extend({
             });
 
         },
-
-
     },
 
     mounted() {
-        if (this.aluno === 0) {
+        if (this.professor === 0) {
             this.nextId();
         } else{
             this.getData();

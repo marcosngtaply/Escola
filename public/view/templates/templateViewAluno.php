@@ -32,14 +32,15 @@
                             <td>{{ item.cpf }}</td>
                             <td>{{ item.telefone }}</td>
                             <td>
-                                <button @click="mostrarAluno(item.id)" class="btn btn-success btn-sm" id="verificar"
-                                        data-toggle="modal" data-target="#modalAluno"> <i class="far fa-eye"></i>
+                                <button @click="mostrarAluno(item.id)" class="btn btn-success btn-sm" title="Visualizar" id="verificar"
+                                        data-toggle="modal" data-target="#modalAluno">
+                                    <i class="far fa-eye" style="font-size: smaller"></i>
                                 </button>
-                                <button type="button" @click="editAluno(item.id)" class="btn btn-warning btn-sm" id="editar">
-                                    <i class="far fa-edit"></i>
+                                <button type="button" @click="editAluno(item.id)" class="btn btn-warning btn-sm" title="Editar" id="editar">
+                                    <i class="far fa-edit" style="font-size: smaller"></i>
                                 </button>
-                                <button @click="deleteAluno(item.pessoa)" class="btn btn-danger btn-sm" id="excluir">
-                                    <i class="far fa-trash-alt"></i>
+                                <button @click="deleteAluno(item.pessoa)" class="btn btn-danger btn-sm" title="Excluir" id="excluir">
+                                    <i class="far fa-trash-alt" style="font-size: smaller"></i>
                                 </button>
                             </td>
                         </tr>
@@ -48,6 +49,8 @@
                 </div>
             </div>
         </div>
+
+<!--        MODAL ALUNO-->
         <div>
             <div class="modal fade" id="modalAluno" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -56,9 +59,6 @@
                             <h5 class="modal-title" id="exampleModalCenterTitle">Aluno -
                                 {{ pessoa.nome }}
                             </h5>
-                            <button type="button" class="Fechar" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <div class="modal-body">
                             <table class="table table-sm table-striped table-hover">
@@ -100,70 +100,11 @@
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!--    MODAL PARA MOSTRAR ALUNOS-->
-<!--        <div v-for="pessoa in dados">-->
-<!--            <div class="modal fade" id="modalAluno" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
-<!--                <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--                    <div class="modal-content">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h5 class="modal-title" id="exampleModalCenterTitle">Aluno --->
-<!--                                {{ person.nome }}-->
-<!--                            </h5>-->
-<!--                            <button type="button" class="Fechar" data-dismiss="modal" aria-label="Close">-->
-<!--                                <span aria-hidden="true">&times;</span>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        <div class="modal-body">-->
-<!--                            <table class="table table-sm table-striped table-hover">-->
-<!--                                <tr>-->
-<!--                                    <th>Id:-->
-<!--                                        <td>-->
-<!--                                        {{ person.id }}-->
-<!--                                        </td>-->
-<!--                                    </th>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Número da matrícula:-->
-<!--                                        <td>-->
-<!--                                        {{ person.matricula }}-->
-<!--                                        </td>-->
-<!--                                    </th>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Cpf:-->
-<!--                                        <td>-->
-<!--                                        {{ person.cpf }}-->
-<!--                                        </td>-->
-<!--                                    </th>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Telefone:-->
-<!--                                        <td>-->
-<!--                                            {{ person.telefone }}-->
-<!--                                        </td>-->
-<!--                                    </th>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Sexo:-->
-<!--                                        <td>-->
-<!--                                            {{ person.sexo }}-->
-<!--                                        </td>-->
-<!--                                    </th>-->
-<!--                                </tr>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">-->
-<!--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
 </div>

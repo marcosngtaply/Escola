@@ -6,7 +6,19 @@ use App\Dao\ProfessorDao;
 $pessoa = new PessoaDao();
 $professor = new ProfessorDao();
 
-if(!isset($_POST['excluir'])){
+if (isset($_GET['nextId'])) { //traz o proximo ID para o campo ID na hra do cadastro
+
+    echo json_encode($professor->getNextId());
+    exit;
+}
+
+if(isset($_GET['getData'])){ //traz todas as informações do ID empecífico
+
+    echo json_encode($professor->getData($_GET['id']));
+    exit;
+}
+
+if(!isset($_POST['excluir'])){  //SE NAO FOR SETADO EXCLUIR
 
         $pessoa->setNome($_POST['nomeProfessor'] == '' ? null : $_POST['nomeProfessor'])
         ->setCpf($_POST['cpfProfessor'] == '' ? null : $_POST['cpfProfessor'])
@@ -17,27 +29,50 @@ if(!isset($_POST['excluir'])){
         ->setMatricula($_POST['matriculaProfessor'] == '' ? null : $_POST['matriculaProfessor'])
         ->setIngresso($_POST['ingresso'] == '' ? null : $_POST['ingresso']);
 
-        $idProfessor = $professor->save();
+    if (isset($_POST['editar'])) {  //PARTE DE EDIÇÂO
 
-        if($pessoa->getDanielId() > 0){
+        $professor->setId($_POST['idProfessor']);
+        $professor->getPessoa()->setId($_POST['idPessoa']);
+
+        $confirmacao = $professor->editProf();
+
+        if($confirmacao){
             $arr['status'] = true;
-            $arr['msg'] = 'Cadastro do Professor ' . $professor->getPessoa()->getNome() . ' foi salvo com sucesso!';
+            $arr['msg'] = 'Cadastro do Professor ' . $pessoa->getNome() . ' foi salvo com sucesso!';
+        } else {
+            $arr['status'] = false;
+            $arr['msg'] = 'Cadastro do Professor não foi alterado!';
+        }
+
+    } else { // QUANDO FOR SALVAR
+
+        $confirmacao = $professor->saveProf();
+//         var_dump($confirmacao);
+        if($confirmacao == true){
+            $arr['status'] = true;
+            $arr['msg'] = 'Cadastro do Professor ' . $pessoa->getNome() . ' foi salvo com sucesso!';
         } else {
             $arr['status'] = false;
             $arr['msg'] = 'Cadastro do Professor não pôde ser salvo!';
         }
-        echo json_encode($arr);
+    }
+
+    echo json_encode($arr);
 
 } else {
-    $idPhp = $_POST['id'];
-    $result = $professor->deleteProf($idPhp);
 
-    if($result > 0){
+    $idPessoa = $_POST['id'];
+    $professor->setPessoa($pessoa);
+    $confirmacao = $professor->deleteProf($idPessoa);
+
+    // $confirmacao = (new ProfessorDao())->deleteProf($_POST['id']);
+
+    if($confirmacao){
         $arr['status'] = true;
-        $arr['mensagem'] = "Professor " . $this->getPessoa()->getNome() . "excluído com sucesso!";
+        $arr['mensagem'] = "Professor excluído com sucesso!";
     } else {
         $arr['status'] = false;
-        $arr['mensagem'] = "Professor " . $this->getPessoa()->getNome() . "não pôde ser exluído do sistema!";
+        $arr['mensagem'] = "Professor não pôde ser exluído do sistema!";
     }
     echo json_encode($arr);
 

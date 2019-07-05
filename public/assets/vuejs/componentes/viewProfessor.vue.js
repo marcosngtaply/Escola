@@ -1,5 +1,5 @@
 var listagem = Vue.extend({
-    template: '#templateViewAluno',
+    template: '#templateViewProfessor',
 
     props: [
         'listagem'
@@ -21,7 +21,7 @@ var listagem = Vue.extend({
     methods: {
         getData() {
             // ID = 0 Traz todos os registros
-            let url = '../../src/Controller/controllerAluno.php?getData&id=0';
+            let url = '../../src/Controller/controllerProfessor.php?getData&id=0';
 
             let self = this;
 
@@ -29,8 +29,8 @@ var listagem = Vue.extend({
                 self.dados = data;
             });
         },
-        mostrarAluno(id) {
-            let url = '../../src/Controller/controllerAluno.php?getData&id=' + id;
+        mostrarProf(id) {
+            let url = '../../src/Controller/controllerProfessor.php?getData&id=' + id;
 
             let self = this;
 
@@ -40,7 +40,7 @@ var listagem = Vue.extend({
 
             });
         },
-        deleteAluno(id) {
+        deleteProf(id) {
 
             let teste = confirm('Tem certeza que deseja excluir este cadastro?');
             let self = this;
@@ -49,7 +49,7 @@ var listagem = Vue.extend({
                 return false;
             }
 
-            let url = '../../src/Controller/controllerAluno.php';
+            let url = '../../src/Controller/controllerProfessor.php';
             let dados = {
                 'id': id,
                 'excluir': true
@@ -64,8 +64,8 @@ var listagem = Vue.extend({
 
         },
 
-        editAluno(id) {
-          window.open('cadastroAluno.php?id=' + id, '_self')
+        editProf(id) {
+            window.open('cadastroProfessor.php?id=' + id, '_self')
         },
 
     },

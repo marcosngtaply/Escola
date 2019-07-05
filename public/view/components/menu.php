@@ -17,7 +17,7 @@
                    aria-expanded="false"><i class="fas fa-chalkboard-teacher"></i> Professores</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="cadastroProfessor.php"><i class="fas fa-plus"></i> Novo</a>
-                    <a class="dropdown-item" href="viewProfessor.php"><i class="far fa-list-alt"></i> Listar Professores</a>
+                    <a class="dropdown-item" href="cadastroProfessor.php?listar"><i class="far fa-list-alt"></i> Listar Professores</a>
                     <a class="dropdown-item" href="#"><i class="fas fa-chalkboard-teacher"></i> Atribuir turma</a>
                 </div>
             </li>

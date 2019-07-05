@@ -5,6 +5,7 @@ namespace App\Dao;
 
 use App\Model\Curso;
 use PDO;
+use PDOException;
 
 class CursoDao extends Curso
 {
@@ -22,7 +23,7 @@ class CursoDao extends Curso
             $stmtCurso->execute();
             return $this->getDanielId();
 
-        } catch (\PDOException $evento){
+        } catch (PDOException $evento){
 
             return false;
         }
